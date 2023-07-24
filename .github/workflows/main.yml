@@ -1,7 +1,9 @@
 name: CICD
 on: [push]
+permissions: 
+  contents: write
 jobs:
-  check: 
+  check-and-deploy: 
     runs-on: ubuntu-latest
     steps:
       - name: check source code
@@ -12,4 +14,10 @@ jobs:
       - name: run prettier check
         run:
           npx prettier --check ./source
-          
+      - name: build
+        run:
+          npm run build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: public # The folder in your repository that you want to deploy
